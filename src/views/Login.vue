@@ -34,8 +34,9 @@ export default {
             let _this = this;
             login({username:this.username,password:this.password}).then((res)=>{
                 if(res.data[0].nickname === '管理员'){
+                    console.log("222")
                     localStorage.setItem('login',true);
-                    this.$router.push('/');
+                    _this.$router.push('/');
                 }else if(res.data[0].nickname !== '管理员'){
                     localStorage.setItem('login',false);
                     _this.msg = "你不是管理员"
