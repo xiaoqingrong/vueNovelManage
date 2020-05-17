@@ -71,7 +71,8 @@ export default {
 #login_root{
     width: 100%;
     height: 100vh;
-    background-color: rgba(10, 10, 10, 0.6);
+    background: url("../assets/beijing.png") no-repeat;
+    background-size: 100% 100%;
     overflow: hidden;
     padding-top: 200px;
     div{
