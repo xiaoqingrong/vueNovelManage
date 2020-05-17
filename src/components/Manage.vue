@@ -77,8 +77,7 @@ export default {
   },
   methods: {
     getAllData(){
-        manage('').then((res)=>{
-            
+        manage('').then((res)=>{            
             this.data = [];
             for (let i = 0; i < res.data.length; i++) {
                 this.data.push({
@@ -115,7 +114,6 @@ export default {
       let _this = this;      
       editmanage({id:record.key,username:record.username,password:record.password}).then((res)=>{
          _this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "修改成功!";
           _this.editingKey = ''
           _this.isShowWeakErr = true;                    
@@ -124,7 +122,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "修改失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -137,9 +134,7 @@ export default {
         console.log(key)
       let _this = this;
       deletemanage({id:key}).then((res)=>{
-          console.log(res)
          this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "删除成功!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -147,7 +142,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "删除失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -158,7 +152,6 @@ export default {
     },
     add(){
         this.addIsShow  = true;        
-        console.log(this.addIsShow)
     },
     not(){
         this.addIsShow  = false;
@@ -169,7 +162,6 @@ export default {
         let password = this.$refs.pass.value;
         insertmanage({username:username,password:password}).then((res)=>{
          _this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "添加成功!";
           _this.editingKey = ''
           _this.isShowWeakErr = true;    
@@ -179,7 +171,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "添加失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{

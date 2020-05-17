@@ -71,8 +71,7 @@ export default {
   methods: {
     getAllData(){
       this.data = []
-      allbooks('').then((res)=>{  
-        console.log(res)      
+      allbooks('').then((res)=>{   
         for (let i = 0; i < res.data.length; i++) {
           this.data.push({
             key: res.data[i].id,
@@ -115,7 +114,6 @@ export default {
         is_end:record.book_isOver=='是'?true:false
         }).then((res)=>{
          _this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "修改成功!";
           this.editingKey = ''
           _this.isShowWeakErr = true;                    
@@ -124,7 +122,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "修改失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -137,7 +134,6 @@ export default {
       let _this = this;
       deleteBooks({id:key}).then((res)=>{
          this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "删除成功!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -145,7 +141,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "删除失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{

@@ -1,8 +1,11 @@
 <template>
   <div class="allbooks">
     <a-table :columns="boyColumns" :data-source="this.data" bordered>
+    <template slot="xuaho" slot-scope="text, record, index">
+      {{text}}
+    </template>
     <template
-      v-for="col in ['xuaho', 'book_name', 'book_type', 'book_desc']"
+      v-for="col in ['book_name', 'book_type', 'book_desc']"
       :slot="col"
       slot-scope="text, record, index"
     >
@@ -28,7 +31,7 @@
     <template slot="action" slot-scope="text, record, index">
       <div class="editable-row-operations">
         <span>
-          <a @click="() => save(record.key)">保存</a>
+          <a @click="() => save(record)">保存</a>
           <a-popconfirm title="是否确定删除?" @confirm="() => cancel(record.key)">
             <a>删除</a>
           </a-popconfirm>
@@ -43,7 +46,7 @@
 </template>
 <script>
 import {boyColumns} from '../config/allbookSet.js'
-import {girlbooks} from '../api/index'
+import {girlbooks, editGirlbooks, deleteGirlbooks} from '../api/index'
 
 export default {
   name:'GirlBooks',
@@ -61,13 +64,14 @@ export default {
   methods: {
     getAllData(){
         girlbooks('').then((res)=>{
+            this.data = [];
             console.log(res)
             for (let i = 0; i < res.data.length; i++) {
                 this.data.push({
-                key: i+1,
+                key: res.data[i].label_id,
                 xuaho: i+1,
                 book_name: res.data[i].lable_list_name,
-                book_type: res.data[i].lable_name,
+                book_type: res.data[i].label_name,
                 book_desc:res.data[i].lable_list,
                 book_img:res.data[i].label_list_img,
                 action:`${i}`
@@ -95,31 +99,49 @@ export default {
         this.data = newData;
       }
     },
-    save(key) {
-      const newData = [...this.data];
-      const newCacheData = [...this.cacheData];
-      const target = newData.filter(item => key === item.key)[0];
-      const targetCache = newCacheData.filter(item => key === item.key)[0];
-      if (target && targetCache) {
-        delete target.editable;
-        this.data = newData;
-        Object.assign(targetCache, target); 
-        this.cacheData = newCacheData;
-      }
-      this.editingKey = '';
+    save(record) {
+      let _this = this;      
+      editGirlbooks({
+        id:record.key,
+        novel_name:record.book_name,
+        novel_type:record.book_type,
+        novel_desc:record.book_desc
+        }).then((res)=>{
+         _this.getAllData();
+          _this.msg = "修改成功!";
+          this.editingKey = ''
+          _this.isShowWeakErr = true;                    
+          setTimeout((e)=>{
+              _this.isShowWeakErr = false;
+              _this.msg = "1"
+          },2000)
+      }).catch((err)=>{
+          _this.msg = "修改失败!"
+          _this.isShowWeakErr = true;                    
+          setTimeout((e)=>{
+              _this.isShowWeakErr = false;
+              _this.msg = "1"
+          },2000)
+      })
     },
-    cancel(key) {
-      const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
-      this.editingKey = '';
-      console.log(this.data)
-      if (target) {
-        // console.log(target)
-        // Object.assign(target,[0]);
-        delete target.editable;
-        this.data =  this.cacheData.filter(item => key !== item.key);
-        // console.log(newData)
-      }
+    cancel(id) {
+      let _this = this;
+      deleteGirlbooks({id:id}).then((res)=>{
+         _this.getAllData();
+          _this.msg = "删除成功!"
+          _this.isShowWeakErr = true;                    
+          setTimeout((e)=>{
+              _this.isShowWeakErr = false;
+              _this.msg = "1"
+          },2000)
+      }).catch((err)=>{
+          _this.msg = "删除失败!"
+          _this.isShowWeakErr = true;                    
+          setTimeout((e)=>{
+              _this.isShowWeakErr = false;
+              _this.msg = "1"
+          },2000)
+      })
     },
   },
 };

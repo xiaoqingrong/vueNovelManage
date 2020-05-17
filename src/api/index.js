@@ -5,21 +5,23 @@ import { httpGet, httpPost } from './http.js';
 export const login = (params = {}) => httpGet({ url: 'manage/login', params })
 // 全部接口
 export const allbooks = (params = {}) => httpGet({ url: 'book', params })
-
 export const deleteBooks = (params = {}) => httpGet({ url: 'deleteBooks', params })
-
 export const editBooks = (params = {}) => httpGet({ url: 'editBooks', params })
 
 // 男生接口
 export const boybooks = (params = {}) => httpGet({ url: 'boyBooks', params })
-
 export const deleteBoyBooks = (params = {}) => httpGet({ url: 'deleteBoyBooks', params })
-
 export const editBoyBooks = (params = {}) => httpGet({ url: 'editBoyBooks', params })
+
 // 女生接口
 export const girlbooks = (params = {}) => httpGet({ url: 'girlbooks', params })
+export const editGirlbooks = (params = {}) => httpGet({ url: 'editGirlbooks', params })
+export const deleteGirlbooks = (params = {}) => httpGet({ url: 'deleteGirlbooks', params })
+
 // 出版接口
 export const publishBooks = (params = {}) => httpGet({ url: 'publishBooks', params })
+export const editPublishBooks = (params = {}) => httpGet({ url: 'editPublishBooks', params })
+export const deletePublishBooks = (params = {}) => httpGet({ url: 'deletePublishBooks', params })
 
 // 管理员
 export const manage = (params = {}) => httpGet({ url: 'manage', params })

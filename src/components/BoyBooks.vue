@@ -32,7 +32,7 @@
       <div class="editable-row-operations">
         <span>
           <a @click="() => save(record)">保存</a>
-          <a-popconfirm title="是否确定删除?" @confirm="() => cancel(record.book_name)">
+          <a-popconfirm title="是否确定删除?" @confirm="() => cancel(record.key)">
             <a>删除</a>
           </a-popconfirm>
         </span>
@@ -75,7 +75,7 @@ export default {
         _this.data = []
         for (let i = 0; i < res.data.length; i++) {
             _this.data.push({
-            key: i+1,
+            key: res.data[i].label_id,
             xuaho: i+1,
             book_name: res.data[i].lable_list_name,
             book_type: res.data[i].label_name,
@@ -109,12 +109,12 @@ export default {
     save(record) {
       let _this = this;      
       editBoyBooks({
+        id:record.key,
         novel_name:record.book_name,
         novel_type:record.book_type,
         novel_desc:record.book_desc
         }).then((res)=>{
          _this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "修改成功!";
           this.editingKey = ''
           _this.isShowWeakErr = true;                    
@@ -123,7 +123,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "修改失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -132,12 +131,10 @@ export default {
           },2000)
       })
     },
-    cancel(book_name) {
+    cancel(id) {
       let _this = this;
-      deleteBoyBooks({book_name:book_name}).then((res)=>{
-          console.log(res)
+      deleteBoyBooks({id:id}).then((res)=>{
          _this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "删除成功!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -145,7 +142,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "删除失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{

@@ -68,9 +68,6 @@
         </a-layout-content>
       </a-layout>
     </a-layout-content>
-    <a-layout-footer style="text-align: center">
-      Ant Design ©2018 Created by Ant UED
-    </a-layout-footer>
   </a-layout>
   <button class="outLogin" style="font-size:20px;color:blue;float:right;margin-top:14px" @click="()=>out()">
          退出
@@ -90,10 +87,14 @@ export default {
       msg:'00'
     }
   },
+  mounted(){
+    this.$router.push('/allBooks');
+  },
   methods:{
     out(){
+      localStorage.setItem('login',"");
       this.$router.push('/login');
-      localStorage.setItem('login',false);
+      
     }
   }
 };
@@ -103,14 +104,14 @@ export default {
   width: 120px;
   height: 31px;
   background: rgba(255, 255, 255, 0.2);
-  margin: 16px 28px 16px 0;
+  margin: 16px 28px 16px 0;   
   float: left;
 }
 section{
   height: 100%;
 }
 .ant-layout-content{
-  height: 90%;
+  height: 100%;
 }
 .ant-layout-content{
   padding: 0!important;

@@ -110,7 +110,6 @@ export default {
       let _this = this;      
       edituser({id:record.key,username:record.username,password:record.password}).then((res)=>{
          _this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "修改成功!";
           _this.editingKey = ''
           _this.isShowWeakErr = true;                    
@@ -119,7 +118,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "修改失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -132,7 +130,6 @@ export default {
       let _this = this;
       deleteuser({id:key}).then((res)=>{
          this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "删除成功!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -140,7 +137,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "删除失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{
@@ -161,7 +157,6 @@ export default {
         let password = this.$refs.pass.value;
         insertuser({username:username,password:password}).then((res)=>{
          _this.getAllData();
-         localStorage.setItem('login',true);
           _this.msg = "添加成功!";
           _this.editingKey = ''
           _this.isShowWeakErr = true;    
@@ -171,7 +166,6 @@ export default {
               _this.msg = "1"
           },2000)
       }).catch((err)=>{
-        localStorage.setItem('login',false);
           _this.msg = "添加失败!"
           _this.isShowWeakErr = true;                    
           setTimeout((e)=>{

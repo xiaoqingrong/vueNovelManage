@@ -38,7 +38,7 @@ export default {
                     localStorage.setItem('login',true);
                     _this.$router.push('/');
                 }else if(res.data[0].nickname !== '管理员'){
-                    localStorage.setItem('login',false);
+                    localStorage.setItem('login',"");
                     _this.msg = "你不是管理员"
                     _this.isShowWeakErr = true;                    
                     setTimeout((e)=>{
@@ -46,7 +46,7 @@ export default {
                         _this.msg = "1"
                     },2000)
                 } else if(res.data.lengh===0){
-                    localStorage.setItem('login',false);
+                    localStorage.setItem('login',"");
                     _this.msg = "账号或密码出错"
                     _this.isShowWeakErr = true;                    
                     setTimeout((e)=>{
@@ -55,7 +55,7 @@ export default {
                     },2000)
                 }                   
             }).catch((err)=>{
-                localStorage.setItem('login',false);
+                localStorage.setItem('login',"");
                     _this.msg = "账号或密码出错"
                     _this.isShowWeakErr = true;                    
                     setTimeout((e)=>{
