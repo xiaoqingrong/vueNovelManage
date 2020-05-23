@@ -27,5 +27,6 @@ p{
   left: 40%;
   color: aqua;
   font-size: 36px;
+  color:#000
 }
 </style>

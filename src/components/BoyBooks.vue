@@ -85,9 +85,9 @@ export default {
             });
         }
         _this.cacheData = _this.data.map(item => ({ ...item }));
-        }).catch((err)=>{
-            console.log(err)
-        })
+      }).catch((err)=>{
+          console.log(err)
+      })
     },
     handleChange(value, key, column) {
       const newData = [...this.data];

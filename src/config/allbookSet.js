@@ -41,7 +41,42 @@ const columns = [
       scopedSlots: { customRender: 'action' },
     },
   ];
-
+  const allcolumns = [
+    {
+      title: '序号',
+      dataIndex: 'xuaho',
+      width: '3%',
+      align:'center',
+      scopedSlots: { customRender: 'xuaho' },
+    },
+    {
+      title: '小说名称',
+      dataIndex: 'book_name',
+      width: '15%',
+      align:'center',
+      scopedSlots: { customRender: 'book_name' },
+    },{
+      title: '小说介绍',
+      dataIndex: 'book_introduction',
+      width: '50%',
+      align:'center',
+      scopedSlots: { customRender: 'book_introduction' },
+    },
+    {
+      title: '作者',
+      dataIndex: 'book_author',
+      width: '5%',
+      align:'center',
+      scopedSlots: { customRender: 'book_author' },
+    },
+    {
+      title: '图书图片',
+      dataIndex: 'book_img',
+      width:'20%',
+      align:'center',
+      scopedSlots: { customRender: 'book_img' },
+    },
+  ];
   const boyColumns = [
     {
       title: '序号',
@@ -116,4 +151,4 @@ const columns = [
     },
   ];
 
-  export {columns,boyColumns, userColumns}
+  export {columns,boyColumns, userColumns, allcolumns}

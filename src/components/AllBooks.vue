@@ -1,5 +1,6 @@
 <template>
   <div class="allbooks">
+    
     <a-table :columns="columns" :data-source="this.data" bordered>
     <template slot="xuaho" slot-scope="text, record, index">
       {{ text }}
@@ -35,19 +36,70 @@
           <a-popconfirm title="是否确定删除?" @confirm="() => cancel(record.key)">
             <a>删除</a>
           </a-popconfirm>
-        </span>
+        </span> 
         <span>
           <a :disabled="editingKey !== ''" @click="() => edit(record.key)">编辑</a>
+        </span>
+        <span>
+          <a :disabled="editingKey !== ''" @click="()=>createBook()">添加</a>
+        </span>
+        <span>
+          <a :disabled="editingKey !== ''" @click="()=>createChapter(record)">添加章节</a>
         </span>
       </div>
     </template>
   </a-table>
   <ShowWeakErr class="active == true?'active:''" v-if="isShowWeakErr==true" :msg="msg"/>
+    <div id="createBook" v-if="boxIsShow==true">
+      <div>
+          <span>书名:</span>
+          <a-input
+          style="margin: -5px 0"
+          @change="e => handleChangeBookName(e.target.value)"
+          />
+      </div>
+      <div>
+          <span>作者:</span>
+          <a-input
+          style="margin: -5px 0"
+          @change="e => handleChangeBookAuthor(e.target.value)"
+          />
+      </div>
+      <div>
+          <span>介绍：</span>
+          <a-input
+          style="margin: -5px 0"
+          @change="e => handleChangeBookReduce(e.target.value)"
+          />
+      </div>
+      <div>
+          <span>图片地址:</span>
+          <a-input
+          style="margin: -5px 0"
+          @change="e => handleChangeBookImg(e.target.value)"
+          />
+      </div>
+      <div class="ationHandle">
+          <a-button @click="e => createBookcancel()">取消</a-button><a-button type="primary" @click="e => confirm()">确定</a-button>
+      </div>
+    </div>
+    <div id="addChapter" v-if="addChapterIsShow==true">
+      <a-input type="text" placeholder="输入章节名称" style="margin:10px 0"
+      @change="e => addChapterName(e.target.value)"
+      />
+      <textarea name="" id="addChapterval" cols="50" rows="12" placeholder="请输入章节内容"
+      @change="e => addChapterContent(e.target.value)"
+      />
+      <div class="ationHandle" style="display:flex;justify-content: space-around;">
+          <a-button @click="e => addChapterCancel()">取消</a-button><a-button type="primary" @click="e => addChapterConfirm()">确定</a-button>
+      </div>
+    </div>
   </div>
+  
 </template>
 <script>
 import {columns} from '../config/allbookSet.js'
-import {allbooks, deleteBooks, editBooks} from '../api/index';
+import {allbooks, deleteBooks, editBooks, addBook, addChapter, haodema} from '../api/index';
 import ShowWeakErr from './ShowWeakErr';
 
 export default {
@@ -62,10 +114,19 @@ export default {
       editingKey: '',
       msg:"",
       isShowWeakErr:false,
-      active:true
+      active:true,
+      boxIsShow:false,
+      addChapterIsShow:false,
+      book_name:'',
+      book_author:'',
+      book_introduction:'',
+      book_img:'',
+      createChapterparams:[],
+      chaptercontent:'',
+      chaptername:''
     };
   },
-  beforeMount(){
+  mounted(){
     this.getAllData()
   },
   methods: {
@@ -149,6 +210,72 @@ export default {
           },2000)
       })
     },
+    createBook(){
+      this.boxIsShow = true
+    },
+    handleChangeBookName(v){
+        this.book_name = v;
+    },
+    handleChangeBookAuthor(v){
+        this.book_author = v;
+    },
+    handleChangeBookReduce(v){
+        this.book_introduction = v;
+    },
+    handleChangeBookImg(v){
+        this.book_img = v;
+    },
+    createBookcancel(){
+        this.boxIsShow = false
+    },
+    addChapterCancel(){
+      this.addChapterIsShow = false
+    },
+    // 添加书籍
+    confirm(){
+        this.boxIsShow = false;
+        let paramas = {
+            book_name:this.book_name,
+            book_author:this.book_author,
+            book_introduction:this.book_introduction,
+            book_img:this.book_img
+            }
+        addBook(paramas).then((res)=>{
+            this.getAllData()
+        }).catch((err)=>{
+            console.log(err)
+        })
+    },
+    addChapterName(v){
+      this.chaptername = v
+    },
+    addChapterContent(v){
+      this.chaptercontent = v
+    },
+    createChapter(e){
+      this.addChapterIsShow = true
+      this.createChapterparams = e
+    },
+    addChapterConfirm(){
+      let _this =this;
+      let paramas  = this.createChapterparams;
+      haodema({bookid:paramas.key}).then((res)=>{
+        addChapter({bookid:paramas.key,chapterid:res.data.length,chaptercontent:this.chaptercontent,chaptername:this.chaptername}).then((res)=>{
+          this.addChapterIsShow = false
+          _this.msg = "添加成功!"
+          _this.isShowWeakErr = true;                    
+          setTimeout((e)=>{
+              _this.isShowWeakErr = false;
+              _this.msg = "1"
+          },2000)
+        }).catch(err=>{
+          console.log(err)
+        })
+      }).catch(err=>{
+        console.log(err)
+      })
+      
+    }
   },
 };
 </script>
@@ -162,5 +289,47 @@ export default {
 .bookImg{
   width: 80px;
   height: 100px;
+}
+
+.addBook{
+    position: absolute;
+    top: 0;
+    padding: 0 10px;
+    left: 20%;
+}
+#addChapter{
+    position:fixed;
+    width: 400px;
+    background-color: #ccc;
+    left:30%;
+    top:20%;
+    padding: 0;
+}
+#createBook{
+    position:fixed;
+    width: 400px;
+    background-color: #ccc;
+    left:30%;
+    top:20%;
+    padding:0 20px;
+    padding-bottom: 20px;
+}
+#createBook>div{
+    display: flex;
+    margin-top: 20px;
+}
+#createBook>div span{
+    flex: 1;
+    text-align: left;
+}
+#createBook>div input{
+    flex: 3;
+}
+#createBook .ationHandle{
+    display: flex;
+    justify-content: space-around;
+}
+#createBook .ationHandle button{
+    width: 30%;
 }
 </style>

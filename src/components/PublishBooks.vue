@@ -142,6 +142,10 @@ export default {
           },2000)
       })
     },
+    addBook(){
+      console.log(this.$parent)
+      this.$parent.showAddBookBox()
+    }
   },
 };
 </script>
