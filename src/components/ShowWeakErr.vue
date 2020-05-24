@@ -23,7 +23,7 @@ p{
   position: fixed;
   display: inline-block;
   padding: 10px;
-  top: 40%;
+  top: 10%;
   left: 40%;
   color: aqua;
   font-size: 36px;
