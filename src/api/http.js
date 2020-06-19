@@ -3,9 +3,9 @@ import axios from 'axios'
 
 // 环境的切换
 if (process.env.NODE_ENV === 'development') {
-  axios.defaults.baseURL = 'http://47.101.71.103:3000'
+  axios.defaults.baseURL = 'http://localhost:3000';
 } else if (process.env.NODE_ENV === 'production') {
-  axios.defaults.baseURL = 'http://47.101.71.103:3000'
+  axios.defaults.baseURL = 'http://192.168.333.666:3000';
 }
 
 // 请求拦截器
