@@ -34,7 +34,6 @@ export default {
             let _this = this;
             login({username:this.username,password:this.password}).then((res)=>{
                 if(res.data[0].nickname === '管理员'){
-                    console.log("222")
                     localStorage.setItem('login',true);
                     _this.$router.push('/');
                 }else if(res.data[0].nickname !== '管理员'){
